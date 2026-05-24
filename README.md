@@ -1,6 +1,7 @@
 ﻿# SkadiNet Unified Slider Reference
 
-![](https://i.ibb.co/4wvK34cM/Screenshot-2026-05-05-002502.png) <br>
+![](https://github.com/sighsorry1029/SkadiNet/blob/main/Images/SkadiNet.png?raw=true)
+
 Reduces network pressure and desync with adaptive ZDO scheduling, smarter ownership recovery, payload reduction, compression, and safe visual RPC filtering, all controlled by simple unified sliders. <br>
 
 ## Practical Slider Values

@@ -10,7 +10,7 @@ namespace SkadiNet
     {
         public const string PluginGuid = "sighsorry.SkadiNet";
         public const string PluginName = "SkadiNet";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.1";
 
         internal static ManualLogSource Log;
         private Harmony _harmony;

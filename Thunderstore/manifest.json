@@ -1,0 +1,9 @@
+﻿{
+  "name": "SkadiNet",
+  "version_number": "1.0.0",
+  "website_url": "",
+  "description": "Network optimization for Valheim dedicated servers with adaptive ZDO scheduling, smarter client ownership, payload reduction, negotiated compression, safe visual RPC AoI, and optional client stutter guard.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2202"
+  ]
+}

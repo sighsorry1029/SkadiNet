@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="MergeServerSync" AfterTargets="Build" Condition="'$(DesignTimeBuild)' != 'true' and Exists('$(OutputPath)ServerSync.dll')">
+    <ItemGroup>
+      <SkadiNetMergeAssemblies Include="$(TargetPath)" />
+      <SkadiNetMergeAssemblies Include="$(OutputPath)ServerSync.dll" />
+    </ItemGroup>
+
+    <ILRepack
+      Parallel="true"
+      DebugInfo="true"
+      Internalize="true"
+      InputAssemblies="@(SkadiNetMergeAssemblies)"
+      OutputFile="$(TargetPath)"
+      TargetKind="SameAsPrimaryAssembly"
+      LibraryPath="$(OutputPath);$(VALHEIM_DIR)\BepInEx\core;$(VALHEIM_DIR)\valheim_Data\Managed" />
+
+    <Delete Files="$(OutputPath)ServerSync.dll" />
+  </Target>
+
+  <Target Name="MakeThunderstorePackage" AfterTargets="MergeServerSync" Condition="'$(DesignTimeBuild)' != 'true' and '$(Configuration)' == 'Release'">
+    <PropertyGroup>
+      <ThunderstorePackageName>$(AssemblyName)_v$(Version)</ThunderstorePackageName>
+      <ThunderstoreOutputDir>$(MSBuildProjectDirectory)\Thunderstore</ThunderstoreOutputDir>
+      <ThunderstoreStageDir>$(BaseIntermediateOutputPath)Thunderstore\$(ThunderstorePackageName)\</ThunderstoreStageDir>
+      <ThunderstorePluginDir>$(ThunderstoreStageDir)$(AssemblyName)\</ThunderstorePluginDir>
+      <ThunderstorePackageFile>$(ThunderstoreOutputDir)\$(ThunderstorePackageName).zip</ThunderstorePackageFile>
+    </PropertyGroup>
+
+    <Error Text="DLL not found for Thunderstore package: $(TargetPath)" Condition="!Exists('$(TargetPath)')" />
+    <Error Text="Thunderstore manifest.json not found. Expected $(ThunderstoreOutputDir)\manifest.json" Condition="!Exists('$(ThunderstoreOutputDir)\manifest.json')" />
+    <Error Text="README.md not found in project root. Expected $(MSBuildProjectDirectory)\README.md" Condition="!Exists('$(MSBuildProjectDirectory)\README.md')" />
+    <Error Text="Thunderstore CHANGELOG.md not found. Expected $(ThunderstoreOutputDir)\CHANGELOG.md" Condition="!Exists('$(ThunderstoreOutputDir)\CHANGELOG.md')" />
+    <Error Text="Thunderstore icon.png not found. Expected $(ThunderstoreOutputDir)\icon.png" Condition="!Exists('$(ThunderstoreOutputDir)\icon.png')" />
+
+    <RemoveDir Directories="$(ThunderstoreStageDir)" Condition="Exists('$(ThunderstoreStageDir)')" />
+    <MakeDir Directories="$(ThunderstoreOutputDir)" />
+    <MakeDir Directories="$(ThunderstorePluginDir)" />
+
+    <ItemGroup>
+      <ThunderstoreRootFiles Include="$(ThunderstoreOutputDir)\manifest.json" />
+      <ThunderstoreRootFiles Include="$(MSBuildProjectDirectory)\README.md" />
+      <ThunderstoreRootFiles Include="$(ThunderstoreOutputDir)\CHANGELOG.md" />
+      <ThunderstoreRootFiles Include="$(ThunderstoreOutputDir)\icon.png" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(ThunderstoreRootFiles)" DestinationFolder="$(ThunderstoreStageDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ThunderstorePluginDir)" />
+    <ZipDirectory SourceDirectory="$(ThunderstoreStageDir)" DestinationFile="$(ThunderstorePackageFile)" Overwrite="true" />
+    <RemoveDir Directories="$(ThunderstoreStageDir)" />
+
+    <Message Text="Thunderstore package created: $(ThunderstorePackageFile)" Importance="high" />
+  </Target>
+</Project>

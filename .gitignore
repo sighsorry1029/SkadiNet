@@ -1,0 +1,22 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+artifacts/build/
+artifacts/obj/
+artifacts/*.zip
+artifacts/reference-dlls/
+artifacts/SkadiNet-*-bepinex-plugin/
+Thunderstore/*.zip
+Thunderstore/*_v*/
+
+# IDE state
+.idea/
+.vs/
+*.suo
+*.user
+*.userosscache
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.swp

@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>SkadiNet</AssemblyName>
+    <RootNamespace>SkadiNet</RootNamespace>
+    <Authors>sighsorry</Authors>
+    <Company>sighsorry</Company>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <Optimize>true</Optimize>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(VALHEIM_DIR)' == '' and Exists('C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\core\BepInEx.dll')">
+    <VALHEIM_DIR>C:\Program Files (x86)\Steam\steamapps\common\Valheim</VALHEIM_DIR>
+  </PropertyGroup>
+
+  <!--
+    Set VALHEIM_DIR to your Valheim install folder before building.
+    Example Windows PowerShell:
+      $env:VALHEIM_DIR = 'C:\Program Files (x86)\Steam\steamapps\common\Valheim'
+      dotnet build .\SkadiNet.sln -c Release
+  -->
+  <ItemGroup Condition="'$(VALHEIM_DIR)' != ''">
+    <Reference Include="BepInEx">
+      <HintPath>$(VALHEIM_DIR)\BepInEx\core\BepInEx.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(VALHEIM_DIR)\BepInEx\core\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(VALHEIM_DIR)\valheim_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(VALHEIM_DIR)\valheim_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(VALHEIM_DIR)\valheim_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.44.2" PrivateAssets="all" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="ServerSync">
+      <HintPath>Libs\ServerSync.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+</Project>

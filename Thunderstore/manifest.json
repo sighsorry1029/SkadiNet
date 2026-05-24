@@ -1,6 +1,6 @@
 {
   "name": "SkadiNet",
-  "version_number": "1.0.0",
+  "version_number": "1.0.1",
   "website_url": "https://discord.gg/jkcJCq2sK5",
   "description": "Reduces network pressure and desync with adaptive ZDO scheduling, smarter ownership recovery, payload reduction, compression, and safe visual RPC filtering, all controlled by simple unified sliders.",
   "dependencies": [
